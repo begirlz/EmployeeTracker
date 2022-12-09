@@ -118,8 +118,8 @@ const promptUser = () => {
 // function to execute query
 exeQuery_View = (sql) => {
     connection.promise().query(sql)
-        .then(([rows, fields]) => {
-            console.table(rows);
+        .then(([data, err]) => {
+            console.table(data);
             promptUser();
         })
         .catch((err) => {
@@ -130,7 +130,7 @@ exeQuery_View = (sql) => {
 // function to execute query with parameter with logging message
 exeQuery_Param = (sql, parm, logMSG) => {
     connection.promise().query(sql, parm)
-        .then(([data, fields]) => {
+        .then(([data, err]) => {
             console.log(logMSG);
         })
         .catch((err) => {
@@ -236,7 +236,7 @@ addRole = () => {
             const roleSql = `SELECT name, id FROM department`;
 
             connection.promise().query(roleSql)
-                .then(([data, fields]) => {
+                .then(([data, err]) => {
                     const dept = data.map(({ name, id }) => ({ name: name, value: id }));
 
                     inquirer.prompt([
@@ -303,7 +303,7 @@ addEmployee = () => {
             const roleSql = `SELECT role.id, role.title FROM role`;
 
             connection.promise().query(roleSql)
-                .then(([data, fields]) => {
+                .then(([data, err]) => {
                     const roles = data.map(({ id, title }) => ({ name: title, value: id }));
 
                     inquirer.prompt([
@@ -321,7 +321,7 @@ addEmployee = () => {
                             const managerSql = `SELECT * FROM employee`;
 
                             connection.promise().query(managerSql)
-                                .then(([data, fields]) => {
+                                .then(([data, err]) => {
                                     const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
 
                                     inquirer.prompt([
@@ -381,7 +381,7 @@ updateEmployee = () => {
                     const roleSql = `SELECT * FROM role`;
 
                     connection.promise().query(roleSql, params)
-                        .then(([data, fields]) => {
+                        .then(([data, err]) => {
                             const roles = data.map(({ id, title }) => ({ name: title, value: id }));
 
                             inquirer.prompt([
@@ -423,7 +423,7 @@ updateManager = () => {
     const employeeSql = `SELECT * FROM employee`;
 
     connection.promise().query(employeeSql)
-        .then(([data, fields]) => {
+        .then(([data, err]) => {
             const employees = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
 
             inquirer.prompt([
@@ -442,7 +442,7 @@ updateManager = () => {
                     const managerSql = `SELECT * FROM employee`;
 
                     connection.promise().query(managerSql, params)
-                        .then(([data, fields]) => {
+                        .then(([data, err]) => {
                             const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
 
                             inquirer.prompt([
@@ -496,7 +496,7 @@ deleteDepartment = () => {
     const deptSql = `SELECT * FROM department`;
 
     connection.promise().query(deptSql)
-        .then(([data, fields]) => {
+        .then(([data, err]) => {
             const dept = data.map(({ name, id }) => ({ name: name, value: id }));
 
             inquirer.prompt([
